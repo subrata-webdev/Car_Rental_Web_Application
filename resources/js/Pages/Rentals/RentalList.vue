@@ -6,6 +6,8 @@ import LayOut from "../Components/LayOut.vue";
 import NavMenu from '../Components/NavMenu.vue';
 const page = usePage();
 const toast = useToast();
+const isAdmin = page.props.isAdmin;
+const rentals = ref(page.props.rentals);
 
 const user = page.props.user;
 
@@ -101,62 +103,66 @@ const updateStatus = (rental) => {
 
     <div class="container w-80 mt-3">
         <div class="row">
-           
+
             <h2 class="text-warning text-center m-1">All your Rental history in one place</h2>
 
             <hr class="mt-1">
             <h2 class="text-warning text-center m-1"></h2>
-
             <hr>
-           <table class="table border border-1">
-  <thead>
-    <tr class="text-primary">
-      <th class="border rounded">SL</th>
-      <th class="border rounded">Car Name</th>
-      <th class="border rounded">Start Date</th>
-      <th class="border rounded">End Date</th>
-      <th class="border rounded">Total Cost ($)</th>
-      <th class="border rounded">Status</th>
-      <th class="border rounded">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-        <tr v-for="(rental, index) in items" :key="rental.id">
-        <td class="border rounded text-primary">{{ index + 1 }}</td>
-        <td class="border rounded text-dark">{{ rental.car?.name || 'N/A' }}</td>
-        <td class="border rounded text-dark">{{ rental.start_date }}</td>
-        <td class="border rounded text-dark">{{ rental.end_date }}</td>
-        <td class="border rounded text-dark">{{ rental.total_cost }}</td>
-        <td class="border rounded text-warning">
-    <!-- Admin can click to change -->
-    <div v-if="user.role === 'admin'">
-        <select v-model="rental.status" @change="updateStatus(rental)" class="form-select form-select-sm">
-        <option value="Pending">Pending</option>
-        <option value="Confirmed">Confirmed</option>
-        <option value="Completed">Completed</option>
-        <option value="Cancelled">Cancelled</option>
-        </select>
-    </div>
+            <div v-if="isAdmin" class="mb-3">
+                <label class="form-label">Filter by Status</label>
+                <select class="form-select" v-model="selectedStatus" @change="filterByStatus">
+                    <option value="">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
 
-    <!-- Non-admin just sees status text -->
-    <div v-else>
-        {{ rental.status }}
-    </div>
-    </td>
+            <table class="table border border-1">
+                <thead>
+                    <tr class="text-primary">
+                        <th class="border rounded">SL</th>
+                        <th class="border rounded">Car Name</th>
+                        <th class="border rounded">Start Date</th>
+                        <th class="border rounded">End Date</th>
+                        <th class="border rounded">Total Cost ($)</th>
+                        <th class="border rounded">Status</th>
+                        <th class="border rounded">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(rental, index) in items" :key="rental.id">
+                        <td class="border rounded text-primary">{{ index + 1 }}</td>
+                        <td class="border rounded text-dark">{{ rental.car?.name || 'N/A' }}</td>
+                        <td class="border rounded text-dark">{{ rental.start_date }}</td>
+                        <td class="border rounded text-dark">{{ rental.end_date }}</td>
+                        <td class="border rounded text-dark">{{ rental.total_cost }}</td>
+                        <td class="border rounded text-warning">
+                            <!-- Admin can click to change -->
 
-      <!-- <td class="border rounded">
-        <button @click="edit(rental.id)" class="btn btn-warning m-1"
-  :disabled="isPastOrToday(rental.start_date)">Edit</button>
-        <button @click="cancelRental(rental.id)"  class="btn btn-danger m-1"
-  :disabled="isPastOrToday(rental.start_date)">Cancel</button>
-      </td> -->
-      <td class="border rounded">
-        <button @click="edit(rental.id)" class="btn btn-warning m-1">Edit</button>
-        <button @click="cancelRental(rental.id)" v-if="rental.start_date" class="btn btn-danger m-1">Cancel</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+                            <template v-if="isAdmin">
+                                <select v-model="rental.status" @change="updateStatus(rental)">
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </template>
+                            <!-- Non-admin just sees status text -->
+                            <template v-else>
+                                <span class="badge bg-secondary">{{ rental.status }}</span>
+                            </template>
+                        </td>
+
+
+                        <td class="border rounded">
+                            <button @click="edit(rental.id)" class="btn btn-warning m-1">Edit</button>
+                            <button @click="cancelRental(rental.id)" v-if="rental.start_date"
+                                class="btn btn-danger m-1">Cancel</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
         </div>
     </div>

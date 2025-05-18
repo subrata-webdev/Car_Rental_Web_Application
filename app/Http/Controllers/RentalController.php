@@ -18,17 +18,17 @@ class RentalController extends Controller
     /**
      * Display a listing of the resource.
      */
-  public function rentalList(Request $request)
+    public function rentalList(Request $request)
 {
     $user = Auth::user();
 
-    $rentals = Rental::where('user_id', $user->id)
-                ->with('car') // This is correct
-                ->get();      // Make sure you call get()
+    $rentals = $user->role === 'admin'
+        ? Rental::with('car', 'user')->latest()->get()
+        : Rental::with('car')->where('user_id', $user->id)->latest()->get();
 
     return Inertia::render('Rentals/RentalList', [
         'rentals' => $rentals,
-        'user'=>$user,
+        'isAdmin' => $user->role === 'admin',
     ]);
 }
 
