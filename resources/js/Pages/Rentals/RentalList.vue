@@ -144,11 +144,15 @@ const updateStatus = (rental) => {
     </div>
     </td>
 
-      <td class="border rounded">
+      <!-- <td class="border rounded">
         <button @click="edit(rental.id)" class="btn btn-warning m-1"
   :disabled="isPastOrToday(rental.start_date)">Edit</button>
         <button @click="cancelRental(rental.id)"  class="btn btn-danger m-1"
   :disabled="isPastOrToday(rental.start_date)">Cancel</button>
+      </td> -->
+      <td class="border rounded">
+        <button @click="edit(rental.id)" class="btn btn-warning m-1">Edit</button>
+        <button @click="cancelRental(rental.id)" v-if="rental.start_date" class="btn btn-danger m-1">Cancel</button>
       </td>
     </tr>
   </tbody>

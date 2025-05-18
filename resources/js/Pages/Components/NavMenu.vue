@@ -18,7 +18,7 @@ const props = defineProps({
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img
-                    src="/public/images/logo-swiftride.png"
+                    src="/public/images/logo.png"
                     alt="SwiftRide logo"
                     width="90"
                     class="me-2 rounded"
@@ -49,7 +49,7 @@ const props = defineProps({
                             >Rent A Car</Link
                         >
                     </li>
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a
                             class="nav-link fs-5 nav-anim dropdown-toggle"
                             href="#"
@@ -76,6 +76,12 @@ const props = defineProps({
                                 >
                             </li>
                         </ul>
+                    </li> -->
+                    <li class="nav-item" >
+                        <Link  class="nav-link fs-5 nav-anim" href="/listRentals">Rental History</Link>
+                    </li>
+                     <li  class="nav-item">
+                        <Link   class="nav-link fs-5 nav-anim" href="/dashboard">Dashboard</Link>
                     </li>
                     <li class="nav-item">
                         <Link class="nav-link fs-5 nav-anim" href="/contact"

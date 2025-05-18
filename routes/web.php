@@ -24,10 +24,8 @@ Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 
-
-
 Route::middleware(['auth'])->group(function () {
-    
+
 
 
 });
@@ -69,8 +67,6 @@ Route::middleware(['auth', 'RoleMiddleware:user,admin'])->group(function () {
     //check availability
    
     Route::post('/check-availability', [RentalController::class, 'checkAvailability']);
-    
-    
     Route::get('/showRental/{rental}', [RentalController::class, 'showRental'])->name('rentals.show');
     Route::get('/rentals/{rental}/edit', [RentalController::class, 'edit'])->name('rentals.edit');
     Route::put('/rentals/{rental}/update', [RentalController::class, 'update'])->name('rentals.update');
