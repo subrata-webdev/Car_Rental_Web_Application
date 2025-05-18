@@ -55,9 +55,10 @@ const showCar=(car)=> {
 };
 
 // deleting a specific car
-function deleteCar(carId) {
+function deleteCar(car) {
+    //alert(car);
     if (confirm('Are you sure you want to delete this car?')) {
-        router.get(`/cars/delete?id=${carId}`, {
+        router.get(`/cars/${car}/delete`, {
             preserveScroll: true,
             onSuccess: () => {
                 toast.success('Car deleted successfully');
@@ -69,24 +70,7 @@ function deleteCar(carId) {
         });
     }
 }
-// deleting a specific car
-// function deleteCar(carId) {
 
-//     if (confirm('Are you sure you want to delete this car?')) {
-//         router.get(`/cars/delete?id=${carId}`, {
-//             preserveScroll: true,
-
-//             onSuccess: () => {
-//                 toast.success('Car deleted successfully');
-//                 router.reload(); // reloads current page and fetches fresh data
-
-//             },
-//             onError: () => {
-//                 toast.error('Ops! Failed to delete car');
-//             },
-//         });
-//     }
-// }
 
 
 </script>

@@ -126,10 +126,10 @@ public function showCar(Car $car){
     /**
      * Remove the specified car from storage.
      */
-    public function deleteCar(Request $request)
+    public function deleteCar($id)
     {
-     
-        $car = Car::where('id',$request->id);
+       
+        $car = Car::where('id', $id);
         $car->delete();
         return redirect('/listCars');
 

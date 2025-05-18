@@ -49,7 +49,7 @@ Route::get('/user/edit/{id}', [UserController::class, 'edit']);
     Route::get('/showCar/{car}', [CarController::class, 'showCar'])->name('cars.show');
     Route::get('/cars/{car}/edit', [CarController::class, 'edit'])->name('cars.edit');
     Route::post('/cars/{car}/update', [CarController::class, 'update'])->name('cars.update');
-    Route::get('/cars/{car}/delete', [CarController::class, 'deleteCar'])->name('cars.destroy');
+    Route::get('/cars/{id}/delete', [CarController::class, 'deleteCar'])->name('cars.destroy');
     
 });
 Route::middleware(['auth', 'RoleMiddleware:user,admin'])->group(function () {
